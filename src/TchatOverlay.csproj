@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <!-- WPF0001 : ThemeMode expérimental ; CS0162 : code inaccessible selon l'édition -->
+    <NoWarn>$(NoWarn);WPF0001;CS0162;CS0429</NoWarn>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj\**;bin\**;publish*\**</DefaultItemExcludes>
+    <AssemblyName>TchatOverlay</AssemblyName>
+    <RootNamespace>TchatOverlay</RootNamespace>
+    <StartupObject>TchatOverlay.App</StartupObject>
+    <Version>1.0.0</Version>
+    <Product>Tchat Overlay</Product>
+    <ApplicationIcon>Assets\TchatOverlay.ico</ApplicationIcon>
+
+    <!-- Publication : un seul .exe autonome (aucun runtime .NET à installer) -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>none</DebugType>
+    <SatelliteResourceLanguages>fr</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <!-- Édition Pro : barre de réponse + modération -->
+  <PropertyGroup Condition="'$(Edition)' == 'Pro'">
+    <DefineConstants>$(DefineConstants);PRO</DefineConstants>
+    <AssemblyName>TchatOverlayPro</AssemblyName>
+    <Product>Tchat Overlay Pro</Product>
+    <FinalExeName>Tchat Overlay Pro.exe</FinalExeName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Edition)' != 'Pro'">
+    <FinalExeName>Tchat Overlay.exe</FinalExeName>
+  </PropertyGroup>
+
+  <!-- Nom final du programme avec espace -->
+  <Target Name="RenameExe" AfterTargets="Publish">
+    <Delete Files="$(PublishDir)$(FinalExeName)" />
+    <Move SourceFiles="$(PublishDir)$(AssemblyName).exe" DestinationFiles="$(PublishDir)$(FinalExeName)" />
+  </Target>
+
+  <ItemGroup>
+    <Resource Include="Assets\TchatOverlay.ico" />
+  </ItemGroup>
+
+</Project>

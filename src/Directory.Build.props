@@ -1,0 +1,8 @@
+<Project>
+  <!-- Dossiers obj/bin séparés par édition (Standard / Pro) -->
+  <PropertyGroup>
+    <Edition Condition="'$(Edition)' == ''">Standard</Edition>
+    <BaseIntermediateOutputPath>obj\$(Edition)\</BaseIntermediateOutputPath>
+    <BaseOutputPath>bin\$(Edition)\</BaseOutputPath>
+  </PropertyGroup>
+</Project>
